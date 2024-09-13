@@ -1,9 +1,21 @@
-import { Module } from '@nestjs/common';
+import { Module, DynamicModule } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 
-@Module({
-  controllers: [UserController],
-  providers: [UserService]
-})
-export class UserModule {}
+@Module({})
+export class UserModule {
+  static register(options: Record<string, any>): DynamicModule {
+    return {
+      module: UserModule,
+      providers: [
+        {
+          provide: 'OPTIONS',
+          useValue: options,
+        },
+        UserService,
+      ],
+      controllers: [UserController],
+      exports: [],
+    };
+  }
+}
