@@ -7,41 +7,16 @@ import { AppService } from './app.service';
   controllers: [AppController],
   providers: [
     {
-      provide: 'app_service',
+      provide: AppService,
       useClass: AppService,
     },
     {
-      provide: 'person',
+      // 注入一个值
+      provide: 'APP_USER',
       useValue: {
-        name: 'xiumubai',
+        name: '张三',
         age: 18,
       },
-    },
-    {
-      provide: 'person2',
-      useFactory() {
-        return {
-          name: '朽木白',
-          age: 40,
-        };
-      },
-    },
-    {
-      provide: 'person3',
-      async useFactory(person: { name: string }, appService: AppService) {
-        await new Promise((resolve) => {
-          setTimeout(resolve, 3000);
-        });
-        return {
-          name: person.name,
-          desc: appService.getHello(),
-        };
-      },
-      inject: ['person', 'app_service'],
-    },
-    {
-      provide: 'pserson4',
-      useExisting: 'person2',
     },
   ],
 })

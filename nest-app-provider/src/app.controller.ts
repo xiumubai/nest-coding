@@ -3,23 +3,20 @@ import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(
-    @Inject('app_service') private readonly appService: AppService,
-    @Inject('person')
-    private readonly person: { name: string; age: number },
-    @Inject('person2')
-    private readonly person2: { name: string; age: number },
-    @Inject('person3')
-    private readonly person3: { name: string; desc: string },
-  ) {}
-  // @Inject('app_service')
-  // private readonly appService: AppService;
+  // constructor(private readonly appService: AppService) {}
+  @Inject(AppService)
+  private readonly appService: AppService;
+
+  @Inject('APP_USER')
+  private readonly user: { name: string; age: number }; // 注入一个常量
 
   @Get()
   getHello(): string {
-    console.log(this.person);
-    console.log(this.person2);
-    console.log(this.person3);
     return this.appService.getHello();
+  }
+
+  @Get('user')
+  getUser(): string {
+    return this.user.name + this.user.age;
   }
 }
